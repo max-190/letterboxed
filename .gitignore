@@ -1,0 +1,5 @@
+.vscode/
+.idea/
+letterboxed
+*.o
+*.d
