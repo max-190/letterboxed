@@ -5,13 +5,15 @@
 
 class Node {
 public:
+    Node();
+
     Node(char letter);
 
     Node(char letter, Node *next);
 
 private:
-    Node *next;
     char letter;
+    Node *next;
 
     friend class Graph;
 };
@@ -32,7 +34,11 @@ public:
     void remove(char from, char dest);
 
 private:
-    std::map<char letter, Node node> letter_graph;
+    // Private removal function for node with given pointer.
+    // node->next is to be removed.
+    void remove(Node *node);
+
+    std::map<char, Node *> letter_graph;
 };
 
 #endif
