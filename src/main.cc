@@ -38,7 +38,7 @@ int main() {
             if (input == "new") {
                 std::getline(std::cin, letters);
                 if (isValidInput(letters)) {
-                    game(letters);
+//                    game(letters);
                 } else {
                     throw std::runtime_error("Input is not valid")
                 }

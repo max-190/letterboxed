@@ -5,10 +5,12 @@
 
 class Node {
 public:
-    Node();
+    Node(char letter);
+
+    Node(char letter, Node *next);
 
 private:
-    int *next;
+    Node *next;
     char letter;
 
     friend class Graph;
@@ -21,16 +23,16 @@ public:
     // Remove all nodes and edges from graph
     ~Graph();
     // Add node to graph
-    bool add(char from);
+    void add(char from);
     // Add edge to existing node; adds node if doesn't yet exist
-    bool add(char from, char dest);
+    void add(char from, char dest);
     // Remove node from graph, including in- and outgoing edges
-    bool remove(char from);
+    void remove(char from);
     // Remove edge from graph
-    bool remove(char from, char dest);
+    void remove(char from, char dest);
 
 private:
-    std::map<char letter, Node node> map;
+    std::map<char letter, Node node> letter_graph;
 };
 
 #endif

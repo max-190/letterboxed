@@ -4,7 +4,7 @@
 class LetterBoxed {
 public:
     LetterBoxed() {};
-    LetterBoxed(std::string letters)
+//    LetterBoxed(std::string letters)
 private:
 
 };
