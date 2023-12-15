@@ -57,9 +57,12 @@ int main() {
 
     Graph graph;
 
-    graph.add('c', 'd');
-    graph.add('a', 'b');
+    graph.add('a', 'c');
     graph.add('b', 'c');
+    graph.add('c', 'd');
+    graph.add('a', 'd');
+
+    graph.remove('c');
 
     graph.print_graph();
 

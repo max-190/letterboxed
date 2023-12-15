@@ -1,107 +1,72 @@
 #include "../inc/graph.h"
 
-Node::Node() {}
-
-Node::Node(char letter)
-        : letter(letter), next(nullptr) {}
-
-Node::Node(char letter, Node *next)
-        : letter(letter), next(next) {}
-
 Graph::Graph() {
 
 }
 
-Graph::~Graph() {
-    Node *node, *old_node;
-    for (auto it = letter_graph.begin(); it != letter_graph.end(); it++) {
-        old_node = it->second;
-        if (old_node == nullptr) {
-            continue;
-        }
-        node = old_node->next;
-        while (node != nullptr) {
-            delete old_node;
-            old_node = node;
-            node = node->next;
-        }
-    }
-}
-
 void Graph::add(char from) {
-    letter_graph.insert({from, nullptr});
+    letter_graph.insert({from, std::vector<char>()});
 }
 
 void Graph::add(char from, char dest) {
-    auto item = letter_graph.find(from);
+    auto from_it = letter_graph.find(from);
 
-    // Avoids having to look in the map twice
-    if (item == letter_graph.end()) {
+    // Adds node to graph in case it doesn't exist yet
+    if (from_it == letter_graph.end()) {
         add(from);
+        from_it = letter_graph.find(from);
     }
-    // Add dest just in case
-    add(dest);
 
-    Node *next_node = item->second;
-    item->second = new Node(dest, next_node);
+    if (letter_graph.find(dest) == letter_graph.end()) {
+        add(dest);
+    }
+
+    // Adds destination node to list of outgoing nodes
+    from_it->second.push_back(dest);
 }
 
 void Graph::remove(char from) {
-    Node *node = letter_graph.find(from)->second;
-
-    if (node == nullptr) {
-        return;
-    }
-
-    while (node->next != nullptr) {
-        remove(node);
-    }
-    delete node;
     letter_graph.erase(from);
+    remove_outgoing(from);
 }
 
 void Graph::remove(char from, char dest) {
-    Node *node = letter_graph.find(from)->second;
-
-    if (node == nullptr) {
-        return;
-    }
-
-    Node *node_before = node;
-    node = node->next;
-    
-    while (node != nullptr) {
-        if (node->letter == dest) {
-            remove(node_before);
+    std::vector<char> v = letter_graph.find(from)->second;
+    for (auto item : v) {
+        if (item == dest) {
+            item = v.back();
+            v.pop_back();
+            return;
         }
-        node_before = node;
-        node = node->next;
     }
 }
 
 void Graph::print_graph() {
     char print_letter;
-    Node *node;
-    std::cout << "digraph G {" << std::endl;
-    for (auto it = letter_graph.begin(); it != letter_graph.end(); it++) {
-        print_letter = it->first;
-        std::cout << print_letter << " [label=\"" << print_letter << "\"]" << std::endl;
 
-        node = it->second;
-        while (node != nullptr) {
-            std:: cout << print_letter << " -> " << node->letter << std::endl;
-            node = node->next;
+    std::cout << "digraph G {" << std::endl;
+    for (auto it : letter_graph) {
+        print_letter = it.first;
+        std::cout << print_letter << " [label=\"" 
+                  << print_letter << "\"]" << std::endl;
+
+        std::vector<char> v = it.second;
+        for (auto i : v) {
+            std::cout << print_letter << " -> " << i << std::endl;
         }
     }
     std::cout << "}" << std::endl;
 }
 
-void Graph::remove(Node *node) {
-    if (node == nullptr || node->next == nullptr) {
-        return;
+void Graph::remove_outgoing(char dest) {
+    for (auto &it : letter_graph) {
+        std::vector<char> &v = it.second;
+        for (size_t i = 0; i < v.size(); i++) {
+            if (v[i] == dest) {
+                v[i] = v.back();
+                v.pop_back();
+                break;
+            }
+        }
     }
-
-    Node *delete_node = node->next;
-    node->next = delete_node->next;
-    delete delete_node;
 }
