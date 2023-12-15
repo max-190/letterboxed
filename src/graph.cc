@@ -35,9 +35,12 @@ void Graph::add(char from) {
 void Graph::add(char from, char dest) {
     auto item = letter_graph.find(from);
 
+    // Avoids having to look in the map twice
     if (item == letter_graph.end()) {
         add(from);
     }
+    // Add dest just in case
+    add(dest);
 
     Node *next_node = item->second;
     item->second = new Node(dest, next_node);
@@ -74,6 +77,23 @@ void Graph::remove(char from, char dest) {
         node_before = node;
         node = node->next;
     }
+}
+
+void Graph::print_graph() {
+    char print_letter;
+    Node *node;
+    std::cout << "digraph G {" << std::endl;
+    for (auto it = letter_graph.begin(); it != letter_graph.end(); it++) {
+        print_letter = it->first;
+        std::cout << print_letter << " [label=\"" << print_letter << "\"]" << std::endl;
+
+        node = it->second;
+        while (node != nullptr) {
+            std:: cout << print_letter << " -> " << node->letter << std::endl;
+            node = node->next;
+        }
+    }
+    std::cout << "}" << std::endl;
 }
 
 void Graph::remove(Node *node) {

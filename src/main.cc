@@ -3,6 +3,7 @@
 #include <set>
 
 #include "../inc/game.h"
+#include "../inc/graph.h"
 
 void print_main_menu() {
     std::cout << "Allowed commands: **TO BE IMPLEMENTED**" << std::endl // TODO: remove if implemented
@@ -28,29 +29,38 @@ int main() {
     std::string input, letters;
     LetterBoxed game;
 
-    std::cout << "///////////////////////////////////" << std::endl
-              << "// 'Letterboxed' solver          //" << std::endl
-              << "// Made by Max-190               //" << std::endl
-              << "// dec 14th, 2023                //" << std::endl
-              << "// Compiled using g++ with c++11 //" << std::endl
-              << "///////////////////////////////////" << std::endl
-              << std::endl;
+    // std::cout << "///////////////////////////////////" << std::endl
+    //           << "// 'Letterboxed' solver          //" << std::endl
+    //           << "// Made by Max-190               //" << std::endl
+    //           << "// dec 14th, 2023                //" << std::endl
+    //           << "// Compiled using g++ with c++11 //" << std::endl
+    //           << "///////////////////////////////////" << std::endl
+    //           << std::endl;
 
-    while (input != "exit") {
-        try {
-            print_main_menu();
-            std::cout << "> ";
-            std::cin >> input;
-            if (input == "new") {
-                std::getline(std::cin, letters);
-                if (is_valid_input(letters)) {
-                    // game(letters);
-                } else {
-                    throw std::runtime_error("Input is not valid");
-                }
-            }
-        } catch (std::exception const &e) {
-            std::cerr << "Error: " << e.what() << std::endl;
-        }
-    }
+    // while (input != "exit") {
+    //     try {
+    //         print_main_menu();
+    //         std::cout << "> ";
+    //         std::cin >> input;
+    //         if (input == "new") {
+    //             std::getline(std::cin, letters);
+    //             if (is_valid_input(letters)) {
+    //                 // game(letters);
+    //             } else {
+    //                 throw std::runtime_error("Input is not valid");
+    //             }
+    //         }
+    //     } catch (std::exception const &e) {
+    //         std::cerr << "Error: " << e.what() << std::endl;
+    //     }
+    // }
+
+    Graph graph;
+
+    graph.add('c', 'd');
+    graph.add('a', 'b');
+    graph.add('b', 'c');
+
+    graph.print_graph();
+
 }

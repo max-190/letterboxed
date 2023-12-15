@@ -1,6 +1,7 @@
 #ifndef LB_GRAPH_H
 #define LB_GRAPH_H
 
+#include <iostream>
 #include <map>
 
 class Node {
@@ -32,6 +33,10 @@ public:
     void remove(char from);
     // Remove edge from graph
     void remove(char from, char dest);
+    // Prints the graph using DOT-notation to the console. 
+    // Graph can be viewed using Graphviz, for example with 
+    // https://dreampuf.github.io/GraphvizOnline/
+    void print_graph();
 
 private:
     // Private removal function for node with given pointer.
